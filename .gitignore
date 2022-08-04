@@ -1,0 +1,9 @@
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+annotator_env
+__pycache__
+.DS_Store
+test-server-key.pem
+ec2-key.pem
