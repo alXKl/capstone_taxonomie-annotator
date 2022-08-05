@@ -255,7 +255,7 @@ $(function() {
                     $('#loadbtn').html(
                         `<span role="status" aria-hidden="true"></span> Load`
                     );
-                    myAlert('German embedding loaded.');
+                    myAlert('German embedding not yet installed. English embedding loaded.');
                     console.log(response);
                 },
                 error: function(error){
