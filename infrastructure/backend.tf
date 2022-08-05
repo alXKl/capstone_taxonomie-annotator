@@ -19,22 +19,24 @@ resource "aws_launch_configuration" "cap_instance" {
   key_name              = "ec2-key"
   security_groups       = [aws_security_group.cap_instance_sg.id]
   iam_instance_profile  = "${aws_iam_instance_profile.instance_profile.id}"
-  # user_data = <<EOF
-  #   #!/bin/bash
-  #   cd /home/ec2-user
-  #   mkdir src
-  #   cd src
-  #   aws s3 cp s3://cap-backend-src-bucket/backend.zip backend.zip
-  #   unzip backend.zip
-  #   pip3 install -r requirements.txt
-  #   python3 main.py
-  # EOF
+  user_data = <<EOF
+    #!/bin/bash
+    cd /home/ec2-user
+    aws s3 cp s3://cap-backend-src-bucket/backend.zip backend.zip
+    unzip backend.zip
+    pip3 install -r requirements.txt
+    python3 main.py
+  EOF
+
+  # depends_on = [
+  #   aws_s3_bucket_object.src
+  # ]
 
   # scp -i ../ec2-key.pem ../backend/backend.zip ec2-user@18.194.239.46:/home/ec2-user 
 
-  lifecycle {
-    create_before_destroy = false
-  }
+  # lifecycle {
+  #   create_before_destroy = false
+  # }
 }
 
 resource "aws_autoscaling_group" "cap_asg" {
