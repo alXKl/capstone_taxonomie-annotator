@@ -60,10 +60,11 @@ $(document).on('click', '.lrn-dropdown', function (e) {
           contentType: 'application/json',
           data: data,
           success: function(response){
-              console.log(response)
+            myAlert('Annotations from history loaded.');
+            console.log(response)
           },
           error: function(error){
-              console.log(error);
+            console.log(error);
           }
       });
   });
@@ -202,7 +203,7 @@ $(document).on('click', '.lrn-dropdown', function (e) {
               resetPrecisions();
               annotations.length = 0;
               updateAnnotationCounts();
-              myAlert('History learned.')
+              myAlert('History data learned.')
           },
           error: function(error){
               console.log(error);
@@ -218,7 +219,8 @@ $(document).on('click', '.lrn-dropdown', function (e) {
           contentType: 'application/json',
           data: data,
           success: function(response){
-              console.log(response)
+            myAlert('New annotations added to history.');
+            console.log(response)
           },
           error: function(error){
               console.log(error);
