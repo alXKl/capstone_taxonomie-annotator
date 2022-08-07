@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="graph.css">
     <link rel="stylesheet" href="context-menu.css">
 
-    <title>Taxonomy Editor</title>
+    <title>Taxonomy Annotator</title>
 
   </head>
 
@@ -22,7 +22,7 @@
       <div class="container-fluid">
 
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Taxonomy Editor</a>
+          <a class="navbar-brand" href="#">Taxonomy Annotator</a>
         </div>
 
         <div class="btn-toolbar">
@@ -44,16 +44,23 @@
             </form>
         </div>
 
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">Annotations</button>
+          <div class="dropdown-menu dropdown-menu-center">
+              <a class="dropdown-item" href="#" id="loadHist">Load History</a>
+              <a class="dropdown-item" href="#" id="annoHist">Show History</a>
+              <a class="dropdown-item" href="#" id="histGraph">Generate Graph</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" id="clrHist">Clear History</a>
+              <a class="dropdown-item" href="#" id="uploadHist">Save New Relations</a>
+          </div>
+        </div>
+
         <form class="myinputform">
           <div class="input-group">
             <input type="text" class="form-control" id="termsearch" placeholder="Write some term&hellip;" autocomplete="off" onkeypress="return searchKeyPress(event);"/>
             <button class="btn btn-secondary" id="termbtn" type="button">Add</button>
           </div>
-        </form>
-
-          <form class="countergrp">
-            <label class="resultLabel" id="resultLabel" style="color:white">Results: </label>
-            <input class="btn btn-secondary" type="number" min="1" max="20" id="resultCounter" style="width: 5em;" value=5>
         </form>
 
         <form class="clearcanvas">
@@ -91,6 +98,11 @@
             </div>
         </form>
 
+        <form class="countergrp">
+          <label class="resultLabel" id="resultLabel" style="color:white">Results: </label>
+          <input class="btn btn-secondary" type="number" min="1" max="20" id="resultCounter" style="width: 5em;" value=5>
+        </form>
+
         <div class="btn-group">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">Projections</button>
             <div class="dropdown-menu dropdown-menu-center">
@@ -105,15 +117,7 @@
             </div>
         </div>
 
-        <div class="btn-group">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">History</button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#" id="annoHist">Annotation History</a>
-                <a class="dropdown-item" href="#" id="histGraph">History Graph</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" id="clrHist">Clear History</a>
-            </div>
-        </div>
+        
 
       </div>
     </nav>

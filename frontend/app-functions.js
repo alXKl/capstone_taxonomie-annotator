@@ -122,7 +122,25 @@ function annotate(relation, mode){
     }
 
     selected_link = null;
+    addAnnonHist(annotation)
     restart();
+}
+
+function addAnnonHist(annotation){
+    $.ajax({
+		url: server_url+'/addannon',
+		type: 'POST',
+        contentType: 'application/json',
+      //  data: annotation,
+      //  dataType: "json",
+        data: JSON.stringify(annotation),
+		success: function(response){
+            console.log(response)
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
 }
 
 function trainBatch(mode){
@@ -151,6 +169,7 @@ function trainBatch(mode){
 		}
 	});
 }
+
 
 
 function showNodeResult(res, relation){
@@ -497,4 +516,3 @@ function updatePrecisions(rel, tp){
     else if(rel === 'tropo'){document.getElementById('tropobadge').innerHTML = (truePos / total).toFixed(2)}
     }
 }
-

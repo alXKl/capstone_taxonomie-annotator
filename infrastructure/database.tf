@@ -16,9 +16,4 @@ resource "aws_dynamodb_table" "annotations" {
     type = "S"
   }
 
-  attribute {
-    name = "relation"
-    type = "S"
-  }
-
 }

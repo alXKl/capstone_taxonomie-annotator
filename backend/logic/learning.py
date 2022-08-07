@@ -8,28 +8,21 @@ The learning module, providing all training functions.
 init, syno, anto, hyper, hypo, cohypo, mero, holo, tropo = None, None, None, None, None, None, None, None, None
 
 
-'''
-Performs projection for given term-vector and relation.
-:param term_vector: Vector of the word that should be projected
-:param mode: Relation type that should be performed
-:return: Resulting new vector for later query
-:rtype: ndarray
-'''
+
 def get_projection(term_vector, mode):
+    '''
+    Performs projection for given term-vector and relation.
+    '''
     projMat = get_matrix(mode)
     projection = np.dot(term_vector, projMat)
     return projection
 
 
-'''
-Linear regression with stochastic gradient descent.
-:param X: X-train data
-:param Y: Y-train data
-:param mode: Name of relation-matrix that should be trained
-:param alpha: Learning rate
-:param numIterations: Iteration count
-'''
+
 def gradient_descent(X, Y, mode, alpha, numIterations):
+    '''
+    Linear regression with stochastic gradient descent.
+    '''
     print("Start Training - "+mode)
     m = len(X)
     projMat = get_matrix(mode)
@@ -45,13 +38,11 @@ def gradient_descent(X, Y, mode, alpha, numIterations):
     print("Finished Training - " + mode)
 
 
-'''
-Returns current state of respective relation matrix.
-:param str mode: The matrix that should be returned
-:return: The respective matrix or None if not found
-:rtype: ndarray or None
-'''
+
 def get_matrix(mode):
+    '''
+    Returns current state of respective relation matrix.
+    '''
     if mode == "syno": return syno
     elif mode == "anto": return anto
     elif mode == "hyper": return hyper
@@ -63,12 +54,11 @@ def get_matrix(mode):
     else: return None
 
 
-'''
-Updates current state of relation matrix.
-:param mode: Name of the matrix that should be updated
-:param projMat: New matrix values
-'''
+
 def write_matrix(mode, projMat):
+    '''
+    Updates current state of relation matrix.
+    '''
     global syno, anto, hyper, hypo, cohypo, mero, holo, tropo
     if mode == "syno": syno = projMat
     elif mode == "anto": anto = projMat
@@ -81,15 +71,12 @@ def write_matrix(mode, projMat):
     else: print('No matrix for such relation')
 
 
-'''
-Performs vector product of given word-vectors and calculates
-mse of resulting matrix and all relation matrices.
-:param termVectorX: Vector of left word
-:param termVectorY: Vector of right word
-:return: Most similar relation matrix, mean square error
-:rtype: str, float
-'''
+
 def get_related_matrix(termVectorX, termVectorY):
+    '''
+    Performs vector product of given word-vectors and calculates
+    mse of resulting matrix and all relation matrices.
+    '''
     global syno, anto, hyper, hypo, cohypo, mero, holo, tropo
     termVectorXtrans = termVectorX.transpose()
     hypothesisMat = np.dot(termVectorXtrans, termVectorY)
@@ -108,13 +95,11 @@ def get_related_matrix(termVectorX, termVectorY):
     return bestFitting, mse
 
 
-'''
-Calculates deltas of current relation matrix and its initialized values.
-:param rel: Relation of matrix deltas should be calculated for
-:return: Matrix with respective deltas
-:rtype: ndarray
-'''
+
 def get_matrix_delta(rel):
+    '''
+    Calculates deltas of current relation matrix and its initialized values.
+    '''
     mat = None
     if rel == "syno": mat = syno - init
     elif rel == "anto": mat = anto - init
@@ -127,11 +112,11 @@ def get_matrix_delta(rel):
     return mat
 
 
-'''
-Re-initializes all matrices with normal distribution.
-:param dims: Dimension of word-embedding
-'''
+
 def reset_matrices(dims):
+    '''
+    Re-initializes all matrices with normal distribution.
+    '''
     global init, syno, anto, hyper, hypo, cohypo, mero, holo, tropo
     # init = np.zeros((dims, dims))
     init = np.random.normal(0, 0.1, (dims, dims))

@@ -6,13 +6,11 @@ from logic import vectors as v
 from logic.word import Word
 
 
-"""
-Load and cleanup data.
-:param dir: File path of word embedding
-:return: Word embedding model, vocabulary, dimensions
-:rtype: list, dict, int
-"""
+
 def load_embedding(dir):
+    """
+    Load and cleanup embedding data.
+    """
     print(f"Loading {dir}...")
     words, voc = load_embedding_raw(dir)
     print(f"Loaded {len(words)} words.")
@@ -26,13 +24,11 @@ def load_embedding(dir):
     return words, voc, num_dimensions
 
 
-"""
-Read data file and load embedding.
-:param dir: File path of word embedding
-:return: Word embedding model, vocabulary
-:rtype: list, dict
-"""
+
 def load_embedding_raw(file_path):
+    """
+    Read data file and load embedding.
+    """
     def parse_line(line, frequency):
         tokens = line.split()
         word = tokens[0]
@@ -68,13 +64,11 @@ def iter_len(iter):
     return sum(1 for _ in iter)
 
 
-"""
-In case of not all vectors having same dimesionality, most common one is tracked.
-:param words: Word embedding model
-:return: Most common dimensionality
-:rtype: int
-"""
+
 def most_common_dimension(words):
+    """
+    In case of not all vectors having same dimesionality, most common one is tracked.
+    """
     lengths = sorted([len(word.vector) for word in words])
     dimensions = [(k, iter_len(v)) for k, v in groupby(lengths)]
     for (dim, num_vectors) in dimensions:
@@ -83,21 +77,21 @@ def most_common_dimension(words):
     return most_common[0]
 
 
+
 '''U.S -> US'''
 ignore_char_regex = re.compile("[\W_]")
+
 
 
 '''Word has to start and end with an alphanumeric character.'''
 is_valid_word = re.compile("^[^\W_].*[^\W_]$")
 
 
-"""
-Removes duplicate words from embedding.
-:param words: Word embedding model
-:return: Word embedding model without duplicate words
-:rtype: list
-"""
+
 def remove_duplicates(words):
+    """
+    Removes duplicate words from embedding.
+    """
     seen_words: Set[str] = set()
     unique_words: List[Word] = []
     for w in words:
@@ -109,15 +103,14 @@ def remove_duplicates(words):
     return unique_words
 
 
-"""
-Removes stop words from embedding.
-:param words: Word embedding model
-:return: Word embedding model without stop words
-:rtype: list
-"""
+
 def remove_stop_words(words):
+    """
+    Removes stop words from embedding.
+    """
     return [w for w in words if (
         len(w.text) > 1 and is_valid_word.match(w.text))]
+
 
 
 def frac_to_float(frac_str):
@@ -132,6 +125,7 @@ def frac_to_float(frac_str):
             whole = 0
         frac = float(num) / float(denom)
         return whole - frac if whole < 0 else whole + frac
+
 
 
 # # Run "smoke tests" on import

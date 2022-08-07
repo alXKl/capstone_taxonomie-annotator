@@ -1,6 +1,5 @@
 from flask import Flask, request
 from flask_cors import CORS
-# from flask_restful import Resource, Api
 
 from logic import operations as o
 import json
@@ -10,7 +9,6 @@ import sys
 from werkzeug.utils import secure_filename
 
 
-# from app import app
 app = Flask('__name__')
 CORS(app)
 
@@ -26,10 +24,11 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-'''
-Test if file is existing.
-'''
+
 def file_accessible(filepath, mode):
+    '''
+    Test if file exists.
+    '''
     try:
         f = open(filepath, mode)
         f.close()
@@ -38,11 +37,12 @@ def file_accessible(filepath, mode):
     return True
 
 
-'''
-Upload own custom model.
-'''
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_model():
+    '''
+    Upload own custom model.
+    '''
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
@@ -60,28 +60,29 @@ def upload_model():
     return "Error"
 
 
-'''
-Load one of default german or english word-model.
-'''
+
 @app.route('/model', methods=['POST'])
 def get_model():
+    '''
+    Load one of default german or english word-model.
+    '''
     lang = request.form['model']
     if lang == 'german':
-        o.load_embedding(EMBEDDINGS_FOLDER+'w2v_continuous-skipgram_german.txt')
-        o.load_index(EMBEDDINGS_FOLDER+'indexw2v_continuous-skipgram_german')
+        o.load_embedding(EMBEDDINGS_FOLDER+'english_12.txt')
+        o.load_index(EMBEDDINGS_FOLDER+'indexenglish_12')
     else:
         o.load_embedding(EMBEDDINGS_FOLDER + 'english_12.txt')
         o.load_index(EMBEDDINGS_FOLDER + 'indexenglish_12')
-
     print(lang+' embedding loaded.', file=sys.stderr)
     return 'Success'
 
 
-'''
-Generate new random term.
-'''
+
 @app.route('/random', methods=['POST', 'GET'])
 def get_random():
+    '''
+    Generate new random term.
+    '''
     words = []
     j = json.loads(request.data)
     n=0
@@ -92,47 +93,51 @@ def get_random():
     return response
 
 
-'''
-Check if word is existing in embedding.
-'''
+
 @app.route('/checkword', methods=['POST'])
 def word_in_embedding():
+    '''
+    Check if word exists in embedding.
+    '''
     term = str(request.form['term'])
     response = o.term_exists(term)
     return str(response)
 
 
-'''
-Get deltas for specific relation-type.
-'''
+
 @app.route('/projection', methods=['POST'])
 def get_matrix_delta():
+    '''
+    Get deltas for a specific relation-type.
+    '''
     relation = str(request.form['relation'])
     response = o.get_delta(relation).tolist()
     return json.dumps(response)
 
 
-'''
-Train data from temporary batch.
-'''
+
 @app.route('/trainbatch', methods=['POST'])
 def train_batch():
+    '''
+    Train data from temporary batch.
+    '''
     # batch = request.get_json()
     data = request.get_json()
     batch = data['batch']
     alpha = float(data['alpha'])
     iterations = int(data['iterations'])
     o.add_training_data(batch)
-    o.add_history_data(batch)
+    # o.add_history_data(batch)
     o.train(alpha, iterations)
     return 'Batch trained'
 
 
-'''
-Predict terms for given word and relation-type.
-'''
+
 @app.route('/relationnode', methods=['POST'])
 def get_related_terms():
+    '''
+    Predict terms for given word and relation-type.
+    '''
     relation = str(request.form['relation'])
     term = str(request.form['term'])
     count = int(request.form['count'])
@@ -148,11 +153,12 @@ def get_related_terms():
     return json.dumps(d)
 
 
-'''
-Calculate analogies.
-'''
+
 @app.route('/analogies', methods=['POST'])
 def get_analogies():
+    '''
+    Calculate analogies.
+    '''
     term1 = str(request.form['term1'])
     term2 = str(request.form['term2'])
     term3 = str(request.form['term3'])
@@ -166,11 +172,12 @@ def get_analogies():
     return json.dumps(d)
 
 
-'''
-Predict a relation-type for a word-pair.
-'''
+
 @app.route('/relationlink', methods=['POST'])
 def get_related_links():
+    '''
+    Predict a relation-type for a word-pair.
+    '''
     source = str(request.form['source'])
     target = str(request.form['target'])
     relation, mse = o.related_matrix(source, target)
@@ -181,60 +188,90 @@ def get_related_links():
     return json.dumps(d)
 
 
-'''
-Re-initialize all projection-matrices.
-'''
+
+@app.route('/addannon', methods=['POST'])
+def add_annotation():
+    '''
+    Add annotation to history.
+    '''
+    annotation = request.get_json()
+    o.add_history_data([annotation])
+    return 'Annotation added'
+
+
+
 @app.route('/resetmat', methods=['POST','GET'])
 def reset_matrices():
+    '''
+    Re-initialize all projection-matrices.
+    '''
     o.reset_matrices()
     print('Matrices reseted.', file=sys.stderr)
     return 'Success'
 
 
-'''
-Get all history data.
-'''
+
+@app.route('/loadhistory', methods=['POST'])
+def load_history():
+    '''
+    Load history from db.
+    '''
+    o.load_db_data()
+    return 'Success'
+
+
+
 @app.route('/history', methods=['POST','GET'])
 def history():
+    '''
+    Get all history data.
+    '''
     response = o.get_history()
     print('History send', file=sys.stderr)
     return json.dumps(response)
 
 
-'''
-Clear all annotations in history.
-'''
+
 @app.route('/clearhistory', methods=['POST','GET'])
 def clear_history():
+    '''
+    Clear all annotations in history.
+    '''
     o.clear_history()
     print('History cleared.', file=sys.stderr)
     return 'Success'
 
 
-'''
-Train on all history data.
-'''
+@app.route('/uploadhistory', methods=['POST'])
+def upload_history():
+    '''
+    Load history from db.
+    '''
+    o.upload_history_data()
+    return 'Success'
+
+
 @app.route('/learnhistory', methods=['POST'])
 def train_history():
+    '''
+    Train on all history data.
+    '''
     alpha = float(request.form['alpha'])
     iterations = int(request.form['iterations'])
     o.train_history(alpha, iterations)
     return 'Success'
 
 
-'''
-Save edited history.
-'''
+
 @app.route('/savehistory', methods=['POST'])
 def save_history():
+    '''
+    Save edited history.
+    '''
     hist = request.get_json()
     o.save_history(hist)
     return 'Success'
-
-
-@app.route('/test')
-def hello_world():
-    return 'HELLO There'
+    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=8080, debug=False, use_reloader=False)

@@ -1,5 +1,5 @@
 numpy
 nmslib
 flask
-flask-restful
 flask_cors
+boto3

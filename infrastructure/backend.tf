@@ -13,7 +13,6 @@ module "vpc" {
 
 resource "aws_launch_configuration" "cap_instance" {
   name_prefix           = "cap-instance-launch-"
-  # image_id              = data.aws_ami.amazon-linux.id
   image_id              = "ami-0c956e207f9d113d5"
   instance_type         = "t2.small"
   key_name              = "ec2-key"
@@ -22,6 +21,8 @@ resource "aws_launch_configuration" "cap_instance" {
   user_data = <<EOF
     #!/bin/bash
     cd /home/ec2-user
+    mkdir src
+    cd src
     aws s3 cp s3://cap-backend-src-bucket/backend.zip backend.zip
     unzip backend.zip
     pip3 install -r requirements.txt
@@ -31,12 +32,6 @@ resource "aws_launch_configuration" "cap_instance" {
   # depends_on = [
   #   aws_s3_bucket_object.src
   # ]
-
-  # scp -i ../ec2-key.pem ../backend/backend.zip ec2-user@18.194.239.46:/home/ec2-user 
-
-  # lifecycle {
-  #   create_before_destroy = false
-  # }
 }
 
 resource "aws_autoscaling_group" "cap_asg" {
