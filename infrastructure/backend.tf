@@ -13,8 +13,8 @@ module "vpc" {
 
 resource "aws_launch_configuration" "cap_instance" {
   name_prefix           = "cap-instance-launch-"
-  image_id              = "ami-0c956e207f9d113d5"
-  instance_type         = "t2.small"
+  image_id              = "ami-0c0fcae772c706bbe"
+  instance_type         = "t4g.medium"
   key_name              = "ec2-key"
   security_groups       = [aws_security_group.cap_instance_sg.id]
   iam_instance_profile  = "${aws_iam_instance_profile.instance_profile.id}"
