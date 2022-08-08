@@ -245,7 +245,7 @@ def clear_history():
 @app.route('/uploadhistory', methods=['POST'])
 def upload_history():
     '''
-    Load history from db.
+    Upload history to db.
     '''
     o.upload_history_data()
     return 'Success'
