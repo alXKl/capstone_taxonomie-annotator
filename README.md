@@ -2,7 +2,8 @@
 
 The "Taxonomy Annotator" is a crowd based human-in-the-loop application for producing training data. The user annotates word-pairs with their potential relation type like "synonym", "antonym", "hypernym", and the annotations are written into a central database. Afterwards a machine learning model can be trained for predicting relations by itself.\
 \
-Give it a try! https://www.annotator-capstone.ml\
+Try it out! https://www.annotator-capstone.ml
+
 \
 In the UI start with loading a word-embedding - then the current annotations-history under "Annotations" - and generate its graph in the same dropdown-menue.
 \
@@ -13,7 +14,7 @@ A more detailed explanation the application, you can find below in the manual.
 </br>
 
 ## AWS - Architecture
-This web application is hosted on the AWS Cloud. Here you can see the setup of the corresponding cloud-services:
+This web application is hosted in the AWS Cloud. Here you can see the setup of the corresponding cloud-services:
 
 ![Overview](img/3d-nogrid.png)
 
