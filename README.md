@@ -9,7 +9,7 @@ In the UI start with loading a word-embedding - then the current annotations-his
 \
 Afterwards you can continue to produce your own annotations by writing new terms and link them by holding left-click and draging a line. To annotate the relation type, just right-click the now created edge, or press one of the fields at the bottom-bar.
 
-A more detailed explanation the application, you can find below in the manual.
+A more detailed explanation of the application, you can find below in the manual.
 
 </br>
 
