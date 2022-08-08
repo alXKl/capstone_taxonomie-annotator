@@ -32,8 +32,8 @@ With a word-embedding initialized, you can start to build a graph. Provide new t
 text input field. The app will accept only words that are contained in the loaded embedding. 
 Alternatively, you can generate some random terms by double-clicking anywhere on 
 the canvas. A selected word can be removed from the graph anytime by hitting remove/delete, or with 
-the context-menu on right-clicking the word. Note that you can **re-position all nodes & links in the
-graph by dragging them while holding ctrl**.
+the context-menu on right-clicking the word. Note that you can re-position all nodes & links in the
+graph by dragging them while holding ctrl.
 
 ### 3. Annotating word-pairs
 For the later-on learning process, relation types have to be annotated between two words first. Therefore,
