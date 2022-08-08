@@ -5,7 +5,7 @@ The "Taxonomy Annotator" is a crowd based human-in-the-loop application for prod
 Try it out! https://www.annotator-capstone.ml
 
 \
-In the UI start with loading a word-embedding - then the current annotations-history under "Annotations" - and generate its graph in the same dropdown-menue.
+In the UI start with loading a word-embedding - then the current annotations-history under *Annotations* - and generate its graph in the same dropdown-menue.
 \
 Afterwards you can continue to produce your own annotations by writing new terms and link them by holding left-click and draging a line. To annotate the relation type, just right-click the now created edge, or press one of the fields at the bottom-bar.
 
@@ -23,7 +23,7 @@ This web application is hosted in the AWS Cloud. Here you can see the setup of t
 ## Manual
 
 ### 1. Load word-embeddings
-First, choose a word embedding (currently only an english embedding is installed by default, so either selection will trigger loading an english embedding). Afterwards hit the *Load* button and the respective 
+First choose a word embedding (currently only an english embedding is installed by default, so either selection will trigger loading an english embedding). Afterwards hit the *Load* button and the respective 
 embedding will be loaded into the application. While loading, all vectors are normalized to **L2 norm**.
 If you load your own model, it will be indexed  by the nmslib module automatically.
 
@@ -32,30 +32,15 @@ With a word-embedding initialized, you can start to build a graph. Provide new t
 text input field. The app will accept only words that are contained in the loaded embedding. 
 Alternatively, you can generate some random terms by double-clicking anywhere on 
 the canvas. A selected word can be removed from the graph anytime by hitting remove/delete, or with 
-the **context-menu on right-clicking the word**. Note that you can **re-position all nodes & links in the
+the context-menu on right-clicking the word. Note that you can **re-position all nodes & links in the
 graph by dragging them while holding ctrl**.
 
-### 3. Basic operations
-Generate the **Nearest Neighbors** of a word by right-clicking a word and selecting the respective 
-option. The **query-result window** will pop up, showing the respective terms ordered by their cosine-
-similarities. With selecting a word from the result, it will be integrated into the graph. The 
-**query-result size** can be changed from 1 - 20 anytime at the top bar.\
-\
-The other basic operation are **Analogies**. Here you just have to select three different words 
-successively in a semantic order and choose the analogy operation from the context-menu. E.g. selecting 
-the words Germany - Berlin - China after another, should ideally generate some chinese cities, in best 
-case Peking since it's the capital like Berlin. The mathematical vector operation done here is
-```console
-word_2 - word_1 + word_3
-```
-For the resulting vector, the app then shows the nearest neighbors in the vector space.
-
-### 4. Annotating relations
+### 3. Annotating word-pairs
 For the later-on learning process, relation types have to be annotated between two words first. Therefore,
 drag an enge between two words. A dashed grey edge is indicating no relation yet. For annotating the link, 
 open the context-menu by right-clicking the link and chose the respective relation-type in *Annotate*.
-An alternative, and probably the smoother option, is just **pressing one of the respective relation fields
-at the bottom-bar**.\
+An alternative, and probably the smoother option, is just pressing one of the respective relation fields
+at the bottom-bar.\
 Currently, the app supports the distinction of eight different relation types:
 
 | Type          | Semantic             | Example             |
@@ -76,10 +61,25 @@ Because there is no definition of a relation in the appliation before the learni
 in fact introduce an own relation type and treat it as one of the above relations. Just make sure to
 be consistent when annotating over the whole process.
 
-### 5. History Annotations
+### 4. Annotation History
 Whenever word-pairs are annotated these information is written into the termorary history file, which you can find under *Anotations* - *Show History*. Here you can also edit the currently made annotations. With *Load History* you can obtain all annotations produced by all users so far from the central repository. Don't hasitate to use *Save New Relations*. Regardless of the shown state of the temporary
 history-file, you can't delete annotations from the central repository accidentally. Only so far not recorded annotations can be added there.\
 Further, in the process of recording annotations, the app prevents duplicate annotations and x - y annotations of undirected relations, if an y - x annotation is already present.
+
+### 5. Basic operations
+Generate the **Nearest Neighbors** of a word by right-clicking a word and selecting the respective 
+option. The **query-result window** will pop up, showing the respective terms ordered by their cosine-
+similarities. With selecting a word from the result, it will be integrated into the graph. The 
+**query-result size** can be changed from 1 - 20 anytime at the top bar.\
+\
+The other basic operation are **Analogies**. Here you just have to select three different words 
+successively in a semantic order and choose the analogy operation from the context-menu. E.g. selecting 
+the words Germany - Berlin - China after another, should ideally generate some chinese cities, in best 
+case Peking since it's the capital like Berlin. The mathematical vector operation done here is
+```console
+word_2 - word_1 + word_3
+```
+For the resulting vector, the app then shows the nearest neighbors in the vector space.
 
 ### 6. Learning & Predicting
 Whith annotating word-pairs, training data is created in form of json
@@ -110,7 +110,7 @@ is minimized, making it a linear regression problem. Here x and y are the word-v
 the annotation, and Φ the respective projection matrix to be trained. For optimization a SGD algorithm for 
 matrices is being used.
 
-To **predict related terms for a word**, choose *Find Related Term* from the context-menu on a node. The 
+To predict related terms for a word, choose *Find Related Term* from the context-menu on a node. The 
 dot-product of the given word and the projection matrix for the chosen relation is then being calculated. 
 For the resulting vector the nearest neighbors are queried and presented.\
 If there is a match in the result-set, select this word and it will be integrated into the graph with the 
@@ -118,7 +118,7 @@ corresponding relation. If there are no matching words, click so in the result-w
 way, the **precision of predictions is maintained, based on your selection, in the relation fields at the 
 bottom**.
 
-To **predict a relation type given a word-pair**, open the context-menu of the **link between two words** and 
+To predict a relation type given a word-pair, open the context-menu of the link between two words and 
 select *Find Relation*. The dot-product of the two word-vectors is calculated and the resulting matrix is 
 being matched with the existing projection matrices for overall error. The result is the best matching 
 relation-type with the overall error. Selecting the relation from the result-window will colour the 
@@ -128,7 +128,7 @@ All matrices can be reset anytime in the *Learning* panel, re-initializing them 
 By doing so, the precisions of predictions so far, will be reset as well.
 
 
-### 6. Projection deltas
+### 7. Projection deltas
 The application can visualize the adaptation of a projection-matrix being made during training. Therefore the
 deltas of a relation matrix are calculated with regard to it's initialized values. The outcome is a heatmap 
 that can be seen under *Projections*.\
