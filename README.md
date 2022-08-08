@@ -134,7 +134,7 @@ deltas of a relation matrix are calculated with regard to it's initialized value
 that can be seen under *Projections*.\
 The hypothesis here is that a specific relation-matrix is getting specialized on some areas in the vector-space, 
 indicating it by a shift of it's values during training. For this observation, however, there must be sufficient 
-and appropriate training data available, what brings us to the next feature of the application.
+and appropriate training data available.
 
 
 
