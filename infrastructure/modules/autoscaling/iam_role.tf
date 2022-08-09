@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "src_bucket_access" {
       {
         Effect = "Allow"
         Action = "s3:ListBucket"
-        Resource = "arn:aws:s3:::cap-backend-src-bucket"
+        Resource = "arn:aws:s3:::${local.src_bucket}"
       },
       {
         Effect = "Allow"
@@ -39,7 +39,7 @@ resource "aws_iam_role_policy" "src_bucket_access" {
           "s3:GetObject",
           "s3:DeleteObject"
         ]
-        Resource = "arn:aws:s3:::cap-backend-src-bucket/*"
+        Resource = "arn:aws:s3:::${local.src_bucket}/*"
       }
     ]
   })
@@ -62,7 +62,8 @@ resource "aws_iam_role_policy" "dynamodb_access" {
           "dynamodb:Update*",
           "dynamodb:PutItem"
         ]
-        Resource = "arn:aws:dynamodb:eu-central-1:348555763414:table/annotations"
+        Resource = "${var.dynamodb_arn}"
+        # Resource = "arn:aws:dynamodb:eu-central-1:348555763414:table/annotations"
       }
     ]
   })

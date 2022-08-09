@@ -9,3 +9,4 @@ test-server-key.pem
 ec2-key.pem
 testbed
 infrastructure_test
+infrastructure_old

@@ -16,26 +16,25 @@ provider "aws" {
   region = "eu-central-1"
 }
 
-data "aws_availability_zones" "available" {
-  state = "available"
+
+module "autoscaling" {
+	source              = "./modules/autoscaling"
+  vpc_id              = module.network.vpc_id
+  vpc_public_subnets  = module.network.vpc_public_subnets
+  dynamodb_arn        = module.database.dynamodb_arn
 }
 
-
-resource "aws_s3_bucket" "cap_backend_src" {
-  bucket = "cap-backend-src-bucket"
-  acl    = "private"
-  tags = {
-    Name = "cap-backend-src-bucket"
-  }
+module "network" {
+	source            = "./modules/network"
+  lb_dns_name       = module.autoscaling.lb_dns_name
+  lb_zone_id        = module.autoscaling.lb_zone_id
+  website_endpoint  = module.client.website_endpoint
 }
 
-resource "aws_s3_bucket_object" "src" {
-  for_each = fileset("../backend/", "**/*.zip")
-
-  bucket = aws_s3_bucket.cap_backend_src.bucket
-  key    = each.value
-  source = "../backend/${each.value}"
-  etag   = filemd5("../backend/${each.value}")
-  # content_type = "text/html"
+module "client" {
+	source            = "./modules/client"
 }
 
+module "database" {
+	source            = "./modules/database"
+}
