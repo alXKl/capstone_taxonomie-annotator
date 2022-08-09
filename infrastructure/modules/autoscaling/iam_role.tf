@@ -63,7 +63,6 @@ resource "aws_iam_role_policy" "dynamodb_access" {
           "dynamodb:PutItem"
         ]
         Resource = "${var.dynamodb_arn}"
-        # Resource = "arn:aws:dynamodb:eu-central-1:348555763414:table/annotations"
       }
     ]
   })

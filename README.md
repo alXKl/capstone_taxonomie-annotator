@@ -115,8 +115,8 @@ dot-product of the given word and the projection matrix for the chosen relation 
 For the resulting vector the nearest neighbors are queried and presented.\
 If there is a match in the result-set, select this word and it will be integrated into the graph with the 
 corresponding relation. If there are no matching words, click so in the result-window. Either
-way, the **precision of predictions is maintained, based on your selection, in the relation fields at the 
-bottom**.
+way, the precision of predictions is maintained, based on your selection, in the relation fields at the 
+bottom.
 
 To predict a relation type given a word-pair, open the context-menu of the link between two words and 
 select *Find Relation*. The dot-product of the two word-vectors is calculated and the resulting matrix is 
