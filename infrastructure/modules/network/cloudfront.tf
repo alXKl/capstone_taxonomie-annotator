@@ -51,4 +51,10 @@ data "aws_acm_certificate" "cf_certificate" {
   domain      = "annotator-capstone.ml"
   types       = ["AMAZON_ISSUED"]
   most_recent = true
+  provider = aws.virginia
+}
+
+provider "aws" {
+  alias = "virginia"
+  region = "us-east-1"
 }

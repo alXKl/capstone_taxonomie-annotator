@@ -1,5 +1,3 @@
-# http://www.annotator-capstone.ml.s3-website.eu-central-1.amazonaws.com
-
 resource "aws_s3_bucket" "frontend_bucket" {
   bucket = "${local.frontend_bucket}"
   acl    = "public-read"
@@ -8,10 +6,11 @@ resource "aws_s3_bucket" "frontend_bucket" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "AddPerm"
-        Effect = "Allow"
-        Action = ["s3:GetObject"],
-        Resource = "arn:aws:s3:::${local.frontend_bucket}/*"
+        Sid       = "AddPerm"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = ["s3:GetObject"]
+        Resource  = "arn:aws:s3:::${local.frontend_bucket}/*"
       }
     ]
   })

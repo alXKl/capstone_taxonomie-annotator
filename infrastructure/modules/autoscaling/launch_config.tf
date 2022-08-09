@@ -1,7 +1,7 @@
 resource "aws_launch_configuration" "instance_config" {
   name_prefix           = "instance-launch-"
-  image_id              = "ami-0c0fcae772c706bbe"
-  instance_type         = "t4g.medium"
+  image_id              = "ami-0c956e207f9d113d5"
+  instance_type         = "t2.medium"
   key_name              = "ec2-key"
   security_groups       = [aws_security_group.instance_sg.id]
   iam_instance_profile  = "${aws_iam_instance_profile.instance_profile.id}"
@@ -26,7 +26,7 @@ resource "aws_autoscaling_group" "asg" {
   max_size             = 3
   desired_capacity     = 1
   launch_configuration = aws_launch_configuration.instance_config.name
-  vpc_zone_identifier  = ["${var.vpc_public_subnets}"]
+  vpc_zone_identifier  = "${var.vpc_public_subnets}"
 }
 
 resource "aws_lb" "lb" {
@@ -34,7 +34,7 @@ resource "aws_lb" "lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = ["${var.vpc_public_subnets}"]
+  subnets            = "${var.vpc_public_subnets}"
 }
 
 resource "aws_lb_listener" "lb_listener" {
@@ -42,7 +42,6 @@ resource "aws_lb_listener" "lb_listener" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  # certificate_arn   = "arn:aws:acm:eu-central-1:348555763414:certificate/c014867f-a8a0-4ea9-885f-a811c2c6ee01"
   certificate_arn   = data.aws_acm_certificate.lb_certificate.arn
   default_action {
     type             = "forward"

@@ -3,7 +3,7 @@ variable "vpc_id" {
 }
 
 variable "vpc_public_subnets" {
-  type = string 
+  type = list 
 }
 
 variable "dynamodb_arn" {

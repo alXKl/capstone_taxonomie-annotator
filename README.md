@@ -5,7 +5,7 @@ The "Taxonomy Annotator" is a crowd based human-in-the-loop application for prod
 Try it out! https://www.annotator-capstone.ml
 
 \
-In the UI start with loading a word-embedding - then the current annotations-history under *Annotations* - and generate its graph in the same dropdown-menue.
+In the UI start with loading a word-embedding - then the current annotations-history under *Annotations* - and generate its graph in the same dropdown-menu.
 \
 Afterwards you can continue to produce your own annotations by writing new terms and link them by holding left-click and draging a line. To annotate the relation type, just right-click the now created edge, or press one of the fields at the bottom-bar.
 
