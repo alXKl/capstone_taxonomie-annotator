@@ -7,8 +7,8 @@ resource "aws_cloudfront_distribution" "www_distribution" {
       origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
 
-    domain_name = "${aws_s3_bucket.cap_frontend_bucket.website_endpoint}"
-    origin_id   = "${var.www_domain_name}"
+    domain_name = "${var.website_endpoint}"
+    origin_id   = "${local.www_domain}"
   }
 
   enabled             = true
@@ -19,8 +19,7 @@ resource "aws_cloudfront_distribution" "www_distribution" {
     compress               = true
     allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    // This needs to match the `origin_id` above.
-    target_origin_id       = "${var.www_domain_name}"
+    target_origin_id       = "${local.www_domain}"
     min_ttl                = 0
     default_ttl            = 86400
     max_ttl                = 31536000
@@ -33,7 +32,7 @@ resource "aws_cloudfront_distribution" "www_distribution" {
     }
   }
 
-  aliases = ["${var.www_domain_name}"]
+  aliases = ["${local.www_domain}"]
 
   restrictions {
     geo_restriction {
@@ -42,7 +41,14 @@ resource "aws_cloudfront_distribution" "www_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = "arn:aws:acm:us-east-1:348555763414:certificate/963e4ab2-1fb9-4b68-b9d9-a13a7c772970"
+    # acm_certificate_arn = "arn:aws:acm:us-east-1:348555763414:certificate/963e4ab2-1fb9-4b68-b9d9-a13a7c772970"
+    acm_certificate_arn = data.aws_acm_certificate.cf_certificate.arn
     ssl_support_method  = "sni-only"
   }
+}
+
+data "aws_acm_certificate" "cf_certificate" {
+  domain      = "annotator-capstone.ml"
+  types       = ["AMAZON_ISSUED"]
+  most_recent = true
 }
