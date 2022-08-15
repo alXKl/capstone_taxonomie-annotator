@@ -2,7 +2,8 @@
 
 The "Taxonomy Annotator" is a crowd based human-in-the-loop application for producing training data. The user annotates word-pairs with their potential relation type like "synonym", "antonym", "hypernym", and the annotations are written into a central database. Afterwards a machine learning model can be trained for predicting relations by itself.\
 \
-Try it out! https://www.annotator-capstone.ml
+Try it out! https://www.annotator-capstone.ml \
+(to save costs on aws, the website is taken down currently)
 
 \
 In the UI start with loading a word-embedding - then the current annotations-history under *Annotations* - and generate its graph in the same dropdown-menu.
@@ -62,7 +63,7 @@ in fact introduce an own relation type and treat it as one of the above relation
 be consistent when annotating over the whole process.
 
 ### 4. Annotation History
-Whenever word-pairs are annotated these information is written into the termorary history file, which you can find under *Anotations* - *Show History*. Here you can also edit the currently made annotations. With *Load History* you can obtain all annotations produced by all users so far from the central repository. Don't hasitate to use *Save New Relations*. Regardless of the shown state of the temporary
+Whenever word-pairs are annotated these information is written into the temporary history file, which you can find under *Anotations* - *Show History*. Here you can also edit the currently made annotations. With *Load History* you can obtain all annotations produced by all users so far from the central repository. Don't hasitate to use *Save New Relations*. Regardless of the shown state of the temporary
 history-file, you can't delete annotations from the central repository accidentally. Only so far not recorded annotations can be added there.\
 Further, in the process of recording annotations, the app prevents duplicate annotations and x - y annotations of undirected relations, if an y - x annotation is already present.
 

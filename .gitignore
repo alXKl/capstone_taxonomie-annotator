@@ -10,3 +10,4 @@ ec2-key.pem
 testbed
 infrastructure_test
 infrastructure_old
+util
